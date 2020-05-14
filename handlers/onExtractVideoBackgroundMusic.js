@@ -42,7 +42,7 @@ const onExtractVideoBackgroundMusic = channel => (msg) => {
             console.log('upload res', uploadRes);
             console.log('done');
             utils.cleanupDir(tmpDir);
-            channel.sendToQueue(queues.EXTRACT_VIDEO_BACKGROUND_MUSIC_FINISH_QUEUE, new Buffer(JSON.stringify({ status: 'success', id, url: uploadRes.url, backgroundMusicKey: uploadRes.Key })), { persistent: true });
+            channel.sendToQueue(queues.EXTRACT_VIDEO_BACKGROUND_MUSIC_FINISH_QUEUE, new Buffer(JSON.stringify({ status: 'success', id, url: uploadRes.url, backgroundMusicKey: uploadRes.Key, Key: uploadRes.Key })), { persistent: true });
             channel.ack(msg);
         })
         .catch(err => {

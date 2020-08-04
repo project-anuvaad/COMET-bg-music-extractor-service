@@ -8,10 +8,13 @@ const rabbitmqService = require('./vendors/rabbitmq');
 const { queues } = require('./constants');
 const {
     EXTRACT_VIDEO_BACKGROUND_MUSIC_QUEUE,
-    EXTRACT_VIDEO_BACKGROUND_MUSIC_FINISH_QUEUE
+    EXTRACT_VIDEO_BACKGROUND_MUSIC_FINISH_QUEUE,
+    EXTRACT_VIDEO_VOICE_QUEUE,
+    EXTRACT_VIDEO_VOICE_FINISH_QUEUE
     } = queues;
 
 const onExtractVideoBackgroundMusic = require('./handlers/onExtractVideoBackgroundMusic');
+const onExtractVideoVoice = require('./handlers/onExtractVideoVoice');
 
 const REQUIRED_DIRS = ['./tmp'];
 
@@ -37,7 +40,11 @@ rabbitmqService.createChannel(RABBITMQ_SERVER, (err, ch) => {
     channel.assertQueue(EXTRACT_VIDEO_BACKGROUND_MUSIC_QUEUE, { durable: true });
     channel.assertQueue(EXTRACT_VIDEO_BACKGROUND_MUSIC_FINISH_QUEUE, { durable: true });
 
+    channel.assertQueue(EXTRACT_VIDEO_VOICE_QUEUE, { durable: true });
+    channel.assertQueue(EXTRACT_VIDEO_VOICE_FINISH_QUEUE, { durable: true });
+
     channel.consume(EXTRACT_VIDEO_BACKGROUND_MUSIC_QUEUE, onExtractVideoBackgroundMusic(channel), { noAck: false });
+    channel.consume(EXTRACT_VIDEO_VOICE_QUEUE, onExtractVideoVoice(channel), { noAck: false });
 
     // Exit app on channel error
     channel.on('error', (err) => {

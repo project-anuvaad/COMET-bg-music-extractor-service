@@ -40,7 +40,6 @@ const onExtractVideoVoice = channel => (msg) => {
             return storageService.saveFile('extractedVoice', `${uuid()}-${voicePath.split('/').pop()}`, fs.createReadStream(voicePath))
         })
         .then((uploadRes) => {
-            console.log('upload res', uploadRes);
             console.log('done');
             utils.cleanupDir(tmpDir);
             channel.ack(msg);

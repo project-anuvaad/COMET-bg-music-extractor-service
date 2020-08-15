@@ -5,7 +5,7 @@ function extractBackgroundMusic(videoPath, targetDirPath) {
     return new Promise((resolve, reject) => {
         // Extract audio from the video
 
-        const audiofileName = 'originalAudio';
+        const audiofileName = `originalAudio-${Date.now()}`;
         const audioPath = path.join(targetDirPath, `${audiofileName}.mp3`);
         const command = `ffmpeg -i ${videoPath} -map 0:a:0 ${audioPath}`;
         exec(command, (err) => {
@@ -14,7 +14,9 @@ function extractBackgroundMusic(videoPath, targetDirPath) {
                 return reject(err);
             }
             // Extract the background music from the video's audio
-            const spleeterCommand = `spleeter separate -i ${audioPath} -p spleeter:2stems -o ${targetDirPath}/output`;
+            const spleeterCommand = `bash separate.sh ${audioPath} ${audiofileName} ${targetDirPath}/output`
+            console.log('command', spleeterCommand)
+            // const spleeterCommand = `spleeter separate -i ${audioPath} -p spleeter:2stems -o ${targetDirPath}/output`;
             exec(spleeterCommand, (err, stdout, stderr) => {
                 if (err) {
                     console.log('error splitting with spleeter', err, stderr, stdout);
@@ -30,7 +32,7 @@ function extractVoice(videoPath, targetDirPath) {
     return new Promise((resolve, reject) => {
         // Extract audio from the video
 
-        const audiofileName = 'originalAudio';
+        const audiofileName = `originalAudio-${Date.now()}`;
         const audioPath = path.join(targetDirPath, `${audiofileName}.mp3`);
         const command = `ffmpeg -i ${videoPath} -map 0:a:0 ${audioPath}`;
         exec(command, (err) => {
@@ -39,7 +41,9 @@ function extractVoice(videoPath, targetDirPath) {
                 return reject(err);
             }
             // Extract the background music from the video's audio
-            const spleeterCommand = `spleeter separate -i ${audioPath} -p spleeter:2stems -o ${targetDirPath}/output`;
+            const spleeterCommand = `bash separate.sh ${audioPath} ${audiofileName} ${targetDirPath}/output`
+            console.log('command', spleeterCommand)
+            // const spleeterCommand = `spleeter separate -i ${audioPath} -p spleeter:2stems -o ${targetDirPath}/output`;
             exec(spleeterCommand, (err, stdout, stderr) => {
                 if (err) {
                     console.log('error splitting with spleeter', err, stderr, stdout);

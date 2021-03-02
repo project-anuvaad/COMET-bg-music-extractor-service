@@ -1,4 +1,4 @@
 
 module.exports = {
-    storageService: require('@videowiki/vendors/storage'),
+    storageService: require('@comet-anuvaad/vendors/storage'),
 }

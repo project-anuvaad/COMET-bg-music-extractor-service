@@ -1,6 +1,6 @@
 
 const fs = require('fs');
-const videowikiGenerators = require('@videowiki/generators');
+const generators = require('@comet-anuvaad/generators');
 
 const RABBITMQ_SERVER = process.env.RABBITMQ_SERVER;
 
@@ -59,8 +59,8 @@ rabbitmqService.createChannel(RABBITMQ_SERVER, (err, ch) => {
         // channel.sendToQueue(CONVERT_VIDEO_TO_ARTICLE_QUEUE, new Buffer(JSON.stringify({ videoId: "5d6d58e54be12b2d18b22b58", articleId: '5d6d5a1e03f9fa6cb96cc2ee' })));
     }, 2000);
 
-    const { app, server } = videowikiGenerators.serverGenerator({ uploadLimit: 50 });
-    videowikiGenerators.healthcheckRouteGenerator({ router: app, rabbitmqConnection: channel.connection });
+    const { app, server } = generators.serverGenerator({ uploadLimit: 50 });
+    generators.healthcheckRouteGenerator({ router: app, rabbitmqConnection: channel.connection });
     server.listen(4000)
 
 })
